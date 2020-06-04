@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import com.couchbase.client.core.error.DocumentNotFoundException;
 import org.springframework.util.Assert;
 
 public class ExecutableFindByIdOperationSupport implements ExecutableFindByIdOperation {
@@ -53,7 +54,12 @@ public class ExecutableFindByIdOperationSupport implements ExecutableFindByIdOpe
 
 		@Override
 		public T one(final String id) {
-			return reactiveSupport.one(id).block();
+			try {
+				return reactiveSupport.one(id).block();
+			} catch(DocumentNotFoundException dnfe){
+				dnfe.printStackTrace();
+				return null;
+			}
 		}
 
 		@Override

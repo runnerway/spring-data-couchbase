@@ -70,7 +70,7 @@ public class ReactiveFindByQueryOperationSupport implements ReactiveFindByQueryO
 
 		@Override
 		public Mono<T> one() {
-			return all().single();
+			return all().singleOrEmpty();
 		}
 
 		@Override
